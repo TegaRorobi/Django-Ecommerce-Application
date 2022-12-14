@@ -1,0 +1,9 @@
+{% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+        <div class='alert alert-danger m-2' id='msg' role='alert' >
+            <h5> {{ message }} </h5>
+        </div>
+        {% endfor %}
+    </ul>
+{% endif %}

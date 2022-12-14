@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% block title %} product {{object.id}}{% endblock %}
+{% load static %}
+<style>
+
+</style>
+
+
+{% block content %}
+{% with 'images/'|add:object.image|add:'.jpg' as product_photo %}
+<img class="" src="{% static product_photo %}" alt="{{instance.image}}">
+{% endwith %}
+<h2>Product info</h2>
+<h3>Type : {{object.sub_class|capfirst}}</h3>
+<h3>Name : {{object.name}}</h3>
+<h3>Price : {{object.price}}</h3>
+{% if object.shipping_cost %}
+<h3>Shipping Cost : {{object.shipping_cost}}</h3>
+<h3 class="purchase-btn">Total Cost : {{object.shipping_cost|add:object.price}}</h3>
+
+{% endif %}
+<input type="submit" class="btn btn-success btn-lg" value="Add to Cart">
+{% endblock %}
+
+

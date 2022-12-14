@@ -1,0 +1,49 @@
+{% extends 'main/base2.html' %}
+{% block title %}
+    Products list
+{% endblock %}
+{% block overlay_name %}
+    All Products
+{% endblock %}
+
+
+{% block main_content %}
+
+    <div class="row">
+        <div class="col-3">
+
+        </div>
+        <div class="col-9">
+            <div class="col-lg-11">
+                <div class="row row-cols-1 row-cols-md-3 g-4">
+                    {% for item in cart_items %}
+                        <div class="col">
+                            <div class="card h-100">
+                                <img class="card-img-top" src="{{item.product.image.url}}" alt="">
+                                
+                                <div class="card-body">
+                                    <div class="card-title">{{item.product.name}}</div>
+                                    <p>Total :
+                                        <b>
+                                            {{item.cost}}
+                                        </b>
+                                    </p>
+                                    <h1 style="float: right;">x{{item.amount}}</h1>
+                                </div>
+                                <form action="." method="POST">{% csrf_token %}
+                                    <button name="cart-add-button" value="{{product.id}}" type="submit" class="btn bg-success purchase-btn w-100">
+                                        Buy
+                                    </button>
+                                </form>
+                                
+                            </div>
+                            
+                            
+                        </div>
+                    {% endfor %}
+                    
+                </div>
+            </div> 
+        </div>
+    </div>
+{% endblock %}

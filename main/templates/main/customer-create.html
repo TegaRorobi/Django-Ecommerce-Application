@@ -1,0 +1,25 @@
+{% extends 'main/base.html' %}
+{% load crispy_forms_tags %}
+
+{% block title %} 
+    {% if customer %}
+        Update profile
+    {% else %}
+        Create profile
+    {% endif %}
+{% endblock %}
+{% block overlay_name %}
+    {% if customer %}
+        Update your profile
+    {% else %}
+        Create your profile
+    {% endif %}
+
+{% endblock %}
+
+{% block main_content %}
+    <form action="" method="POST" enctype="multipart/form-data">
+        {{form|crispy}}{%csrf_token%}
+        <button class="btn btn-lg bg-primary " type="submit" style='float: right;margin: 5px 0 10px;'> Done! </button>
+    </form>
+{% endblock %}

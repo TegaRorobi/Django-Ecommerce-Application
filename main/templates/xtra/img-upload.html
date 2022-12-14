@@ -1,0 +1,20 @@
+{% extends 'main/base2.html'%}
+{% load crispy_forms_tags %}
+
+
+{% block title %}  {% endblock %}
+{% block overlay_name %} Image Upload {% endblock %}
+
+{% block main_content %}
+    <form action="#" method="POST" enctype="multipart/form-data">
+        {{form|crispy}}{% csrf_token %}
+        <button style="float: right;margin:10px 0 0" class="btn btn-lg bg-warning" type="submit">Upload</button>
+    </form>
+
+    {% if img_obj %}  
+        <h3>Succesfully uploaded : {{img_obj.caption}}</h3>  
+        <img src="{{ img_obj.image.url}}" alt="connect" style="max-height:300px">  
+    {% endif %}
+{% endblock %}
+
+

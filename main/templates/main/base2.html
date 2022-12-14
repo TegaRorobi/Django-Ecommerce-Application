@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+
+
+
+
+  <head>
+      <meta charset="UTF-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta name="description" content="This is an online store where you can buy and sell with ease and with seamless transactions.">
+      <meta name="keywords" content="online store buy sell product deals">
+      <title>{% block title %} Homepage {% endblock %}</title>
+      <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+        <!-- Favicons -->
+      <link href="{% static 'assets/img/favicon.png' %}" rel="icon">
+      <link href="{% static 'assets/img/apple-touch-icon.png' %}" rel="apple-touch-icon">
+          <!-- Vendor CSS Files -->
+      <link href="{% static 'assets/vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+      <link href="{% static 'assets/vendor/bootstrap-icons/bootstrap-icons.css' %}" rel="stylesheet">
+      <link href="{% static 'assets/vendor/glightbox/css/glightbox.min.css' %}" rel="stylesheet">
+      <link href="{% static 'assets/vendor/swiper/swiper-bundle.min.css' %}" rel="stylesheet">
+
+      <!-- Template Main CSS File -->
+      <link href="{% static 'assets/css/style.css' %}" rel="stylesheet">
+      <style>
+        body{
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        footer{
+            margin-top: auto !important;
+         
+        }
+        .purchase-btn{
+          background-color: green;
+          color: white;
+        }
+      </style>
+  </head>
+
+
+
+
+
+
+  <body>
+          <!-- ======= Header ======= -->
+    <header id="header" class="fixed-top" style="background-color:rgba(0, 0, 0, 0.9) ;">
+        <div class="container d-flex align-items-center justify-content-between">
+
+          <h1 class="logo"><a href="#">Deciphrexx Stores</a></h1>
+          <!-- Uncomment below if you prefer to use an image logo -->
+          <!-- <a href="index.html" class="logo"><img src="{% static 'assets/img/logo.png' %}" alt="" class="img-fluid"></a>-->
+
+          <nav id="navbar" class="navbar">
+              <ul>
+                <li><a class="nav-link scrollto " href="/">Home</a></li>
+                <li><a class="nav-link scrollto" href="#about">About</a></li>
+                <li><a class="nav-link scrollto" href="#contact">Contact</a></li>
+                <li class="dropdown"><a href="/products/all"><span>Products</span> <i class="bi bi-chevron-down"></i></a>
+                  <ul>
+                    <li><a href="#">Laptops</a></li>
+                    <li class="dropdown"><a href="#"><span>Mobile Phones</span> <i class="bi bi-chevron-right"></i></a>
+                        <ul>
+                        <li><a href="#">Samsung</a></li>
+                        <li><a href="#">Apple</a></li>
+                        <li><a href="#">Xiaomi</a></li>
+                        <li><a href="#">Tecno</a></li>
+                        <li><a href="#">Infinix</a></li>
+                        <li><a href="#">Gionee</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="#">Television sets</a></li>
+                    <li><a href="#">Appliances</a></li>
+                    <li class="dropdown"><a href="#"><span>Cars</span><i class="bi bi-chevron-right"></i> </a>
+                      <ul>
+                        <li><a href="#">Benz</a></li>
+                        <li><a href="#">Toyota</a></li>
+                        <li><a href="#">Lexus</a></li>
+                        <li><a href="#">Peugeot</a></li>
+                        <li class="dropdown"><a href="#"><span>Exotic</span><i class="bi bi-chevron-right"></i></a>
+                          <ul>
+                            <li><a href="#">Rolls Royce</a></li>
+                            <li><a href="#">Ferrari</a></li>
+                            <li><a href="#">Maybach</a></li>
+                            <li><a href="#">Bugatti</a></li>
+                            <li><a href="#">Lamborghini</a></li>
+                          </ul>
+                        </li>
+                      </ul>
+                    </li>
+                  </ul>
+                </li>
+                <li><a class="nav-link scrollto" href="/cart">Cart</a></li>
+                {% if user.is_authenticated %}
+                  <li class="dropdown"><a href="#" ><span>You</span><i class="bi bi-chevron-down"></i></a>
+                    <ul>
+                      <li><a href="#">Username - {{user}}</a></li>
+                      <li><a href="#">Email - {{user.email}}</a></li>
+                      {% if not user.customer %} 
+                        <li><a href='/register-customer/'>Create your Profile </a></li>
+                      {% else %}
+                        <li><a href="/update-customer/"> Update your Profile</a></li>
+                        <li>{{Customer.get_update_url}}</li>
+                      {% endif %}
+
+                      <!-- {% if not user.seller %} 
+                        <li><a href='{{Seller.get_create_url}}'>Create a seller Profile </a></li>
+                      {% else %}
+                        <li><a href="{{user.seller.get_update_url}}"> Update your seller Profile</a></li>
+                        <li><a href="#">+ Sell a product</a></li>
+                      {% endif %} -->
+
+                      
+                    </ul>
+                  </li>
+                {% endif %}
+                <li><a class="nav-link scrollto" href="/login">Sign in</a></li>
+                <li><a class="nav-link scrollto" href="/register">Sign up</a></li>
+                <li><a class="nav-link scrollto" href="/logout"><i class="bi bi-chevron-right"></i></a></li>
+              </ul>
+              <i class="bi bi-list mobile-nav-toggle"></i>
+          </nav><!-- .navbar -->
+
+        </div>
+    </header><!-- End Header -->
+
+
+
+    <div><br><br><br><br></div>
+
+
+
+
+   
+
+    
+    <!-- Main -->
+    <main id="main">
+
+      
+              {% if user.is_authenticated %}
+                {% block main_content %}
+                  
+                {% endblock %}
+              {% else %}
+                {% block login_content %}
+              
+                {% endblock %}
+              {% endif %}
+
+
+    </main><!-- End #main -->
+
+
+
+
+
+
+
+
+    <!-- ======= Footer ======= -->
+    <footer class="">
+      <div class="container">
+        <div class="row">
+          <div class="col-sm-12">
+            <div class="copyright-box">
+              <p class="copyright">&copy; Copyright <strong>Deciphrexx Labs</strong>. All Rights Reserved</p>
+              <div class="credits">
+                <!--
+                All the links in the footer should remain intact.
+                You can delete the links only if you purchased the pro version.
+                Licensing information: https://bootstrapmade.com/license/
+                Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/buy/?theme=DevFolio
+              -->
+                Designed by <a href="#">Deciphrexx</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </footer><!-- End  Footer -->
+
+
+
+
+
+
+    <div id="preloader"></div>
+    <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a> 
+    <!-- Vendor JS Files -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <script src="{% static 'assets/vendor/purecounter/purecounter_vanilla.js' %}"></script>
+    <script src="{% static 'assets/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+    <script src="{% static 'assets/vendor/glightbox/js/glightbox.min.js' %}"></script>
+    <script src="{% static 'assets/vendor/swiper/swiper-bundle.min.js' %}"></script>
+    <script src="{% static 'assets/vendor/typed.js/typed.min.js' %}"></script>
+    <script src="{% static 'assets/vendor/php-email-form/validate.js' %}"></script>
+    <!-- Template Main JS File -->
+    <script src="{% static 'assets/js/main.js' %}"></script>
+    <script>
+      setTimeout(function(){
+        if($('#msg').length > 0){
+          $('#msg').remove(); 
+        }  
+      }, 2000)
+    </script>
+    
+  </body>
+
+
+
+
+
+
+
+</html>

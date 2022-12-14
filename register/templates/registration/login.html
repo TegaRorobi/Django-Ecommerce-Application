@@ -1,0 +1,24 @@
+{% extends 'main/base.html' %}
+
+{% block title %} Login Here {% endblock %}
+{% load crispy_forms_tags %}
+{% block overlay_name %} Login{% endblock %}
+{% block main_content %}
+    <form method="POST" class="form-group">{% csrf_token %}
+        <h1 class="mt-2">Login to Account</h1>
+        {{form|crispy}}
+        <button style="float: right;margin-top:10px;;margin-bottom:20px" type="submit" class="btn btn-success btn-lg"> Login </button>
+        <p>Dont have an account? create one <a href="/register"> <i>here</i> </a></p>
+    </form>
+{% endblock %}
+
+
+
+{% block login_content %}
+    <form method="POST" class="form-group">{% csrf_token %}
+        <h1 class="mt-2">Login to Account</h1>
+        {{form|crispy}}
+        <button style="float: right;margin-top:10px;;margin-bottom:20px" type="submit" class="btn btn-success btn-lg"> Login </button>
+        <p>Dont have an account? create one <a href="/register"> <i>here</i> </a></p>
+    </form>
+{% endblock %}

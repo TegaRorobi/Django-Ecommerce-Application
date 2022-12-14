@@ -1,0 +1,113 @@
+{% extends 'main/base2.html' %}
+{% block title %}
+    Products list
+{% endblock %}
+
+
+
+{% block main_content %}
+    <div class="row">
+        <div class="col-lg-3 col-2 fixed-top one"style='margin-top:95px;margin-left:-3px'>
+			<div class="list-group">
+
+				<a href="/products/all" class="list-group-item list-group-item-action btn btn-outline-success">All Products</a>
+
+				{% for category in categories %}
+				<a href="/products/{{category.name}}"
+					class="list-group-item list-group-item-action btn btn-outline-success ">{{category.name}}</a>
+				{% endfor %}
+			</div>
+		</div>
+        
+        <div class="col-sm-9 offset-lg-3 two">
+            {% include 'main/messages.html' %}
+            <div class="col-lg-11">
+                <div class="row row-cols-1 row-cols-md-3 g-4">
+                    {% for product in products %}
+                        {% if product.inventory > 0 %}
+                            <div class="col">
+                                <div class="card h-100">
+                                    <img class="card-img-top" src="{{product.image.url}}" alt="">
+                                    
+                                    <div class="card-body">
+                                        <div class="card-title">{{product.name}}</div>
+                                        <h5>{{product.price}}</h5>
+                                    </div>
+
+                                    <form action="." method="POST">{% csrf_token %}
+                                        <button name="cart-add-button" value="{{product.id}}" type="submit" class="btn bg-success purchase-btn w-100">
+                                            {% if user.cart.items.all %}
+                                                Add to cart
+                                                {% for cartitem in user.cart.items.all %}
+                                                    {% if cartitem.product == product %}
+                                                       ({{cartitem.amount}} in cart)
+                                                    {% endif %}
+                                                {% endfor %}
+                                            {% else %}
+                                                Add to Cart
+                                            {% endif %}
+                                        </button>
+                                    </form>
+                                    
+                                </div>
+                                
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                    
+                </div>
+            </div> 
+        </div>
+    </div>
+{% endblock %}
+
+{% block login_content %}
+    <div class="row">
+        <div class="col-lg-3 mx-auto sidenav">
+			<div class="list-group">
+
+				<a href="/products/all" class="list-group-item list-group-item-action btn btn-outline-success">All Products</a>
+
+				{% for category in categories %}
+				<a href="/products/{{category.name}}"
+					class="list-group-item list-group-item-action btn btn-outline-success ">{{category.name}}</a>
+				{% endfor %}
+			</div>
+		</div>
+        
+        <div class="col-9">
+            <div class="col-lg-11">
+                <div class="row row-cols-1 row-cols-md-3 g-4">
+                    {% for product in products %}
+                        {% if product.inventory > 0 %}
+                            <div class="col">
+                                <div class="card h-100">
+                                    <img class="card-img-top" src="{{product.image.url}}" alt="">
+                                    
+                                    <div class="card-body">
+                                        <div class="card-title">{{product.name}}</div>
+                                        <h5>{{product.price}}</h5>
+                                    </div>
+                                    <form action="." method="POST">
+                                        {% csrf_token %}
+                                        <button name="cart-add-button" value="{{product.id}}" type="submit" class="btn bg-success purchase-btn w-100">
+                                            {% if product.amount_in_cart < 1 %}
+                                                Add to Cart
+                                            {% else %}
+                                                {{product.amount_in_cart}} in cart, {{product.inventory}} left
+                                            {% endif %}
+                                        </button>
+                                    </form>
+                                    
+                                </div>
+                                
+                                
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                    
+                </div>
+            </div> 
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,146 @@
+{% extends 'main/base.html' %}
+{% block content %}
+
+{% load static %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- <div class="container p-4">
+    <div class="row">
+        <div class="col-lg-4">
+            <h2>Name - {{object.name}}</h2>
+            <h4>Seller - {{object.seller.name}}</h4>
+            <h4>Price - {{object.price}}</h4>
+            <h4>Condition - {{object.condition}}</h4>
+            <h4>Card Slot - {{object.card_slot}}</h4>
+        </div>
+        <div class="col-lg-4">
+            <h2>Quantity - {{object.quantity}}</h2>
+            <h4>Brand - {{object.brand}}</h4>
+            <h4>Model - {{object.model}}</h4>
+            <h4>Internal Storage - {{object.internal_storage}}</h4>
+            <h4>Ram - {{object.ram}}</h4>
+        </div>
+        <div class="col-lg-4">
+            <h2>Quantity - {{object.quantity}}</h2>
+            <h4>Brand - {{object.brand}}</h4>
+            <h4>Model - {{object.model}}</h4>
+            <h4>Internal Storage - {{object.internal_storage}}</h4>
+            <h4>Ram - {{object.ram}}</h4>
+        </div>
+    </div>
+</div> -->
+
+<div class="container p-4 ">
+    <div class="row">
+        <div class="col-lg-3">
+            <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="true">
+            
+                <div class="carousel-inner">
+                    <div class="carousel-item active">
+                        <img src="{% static 'images/Samsung Galaxy A31 128 GB White1.webp' %}" class="d-block" alt="image.phone">
+                    </div>
+                    {% for image in object.image.all %}
+                        {% with 'images/'|add:image.picture_directory as phone_image %}
+                            <div class="carousel-item">
+                                <img src="{% static phone_image %}" class="d-block " alt="image.phone">
+                            </div>
+                        {%endwith%}
+                    {%endfor%}
+                    
+                </div>
+                <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+                  <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                  <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+                  <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                  <span class="visually-hidden">Next</span>
+                </button>
+            </div>
+            
+        </div>
+
+        <div class="col-lg-5">
+            <div class="row">
+                <h2>{{object.name}}</h2>
+            </div>
+            <br>
+            <div class="row">
+                <div class="col-lg-6 col-md-6 mb-4 mb-md-0">
+
+                    <div class="row">
+                        <div class="col-5"><p><b>Brand</b></p></div>
+                        <div class="col-7"><p>{{object.brand}}</p></div>
+                    </div>
+                    <div class="row">
+                        <div class="col-5"><p><b>Condition</b></p></div>
+                        <div class="col-7"><p>{{object.condition}}</p></div>
+                    </div>
+                    <div class="row">
+                        <div class="col-5"><p><b>Card slot</b></p></div>
+                        <div class="col-7"><p>{{object.card_slot}}</p></div>
+                    </div>
+                    <div class="row">
+                        <div class="col-5"><p><b>Ram</b></p></div>
+                        <div class="col-7"><p>{{object.ram}}</p></div>
+                    </div>
+               
+                </div>
+        
+                <div class="col-lg-6 col-md-6 mb-4 mb-md-0">
+        
+                    <div class="row">
+                        <div class="col-5"><p><b>Model</b></p></div>
+                        <div class="col-7"><p>{{object.model}}</p></div>
+                    </div>
+                    <div class="row">
+                        <div class="col-5"><p><b>Second Condition</b></p></div>
+                        <div class="col-7"><p>{{object.second_condition}}</p></div>
+                    </div>
+                    <div class="row">
+                        <div class="col-5"><p><b>Screen size</b></p></div>
+                        <div class="col-7"><p>{{object.screen_size}}</p></div>
+                    </div>
+                    <div class="row">
+                        <div class="col-5"><p><b>Internal Storage</b></p></div>
+                        <div class="col-7"><p>{{object.internal_storage}}</p></div>
+                    </div>
+        
+                </div>
+            </div>
+            
+        </div>
+        
+        <div class="col-lg-4 sideinfo">
+            <h1>{{object.price}} Naira</h1>
+            <h3>{{object.seller.name}}</h3>
+            <h4>{{object.seller.location}}</h4>
+            <h4>{{object.seller.contact}}</h4>
+            <p>{{object.seller.about}}</p>
+
+            
+        </div>
+
+    </div>
+</div>
+
+
+
+
+{% endblock %}
