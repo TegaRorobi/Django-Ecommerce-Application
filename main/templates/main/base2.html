@@ -38,6 +38,10 @@
           background-color: green;
           color: white;
         }
+        .remove-btn{
+          background-color: red;
+          color: white;
+        }
       </style>
   </head>
 
@@ -62,36 +66,10 @@
                 <li><a class="nav-link scrollto" href="#contact">Contact</a></li>
                 <li class="dropdown"><a href="/products/all"><span>Products</span> <i class="bi bi-chevron-down"></i></a>
                   <ul>
-                    <li><a href="#">Laptops</a></li>
-                    <li class="dropdown"><a href="#"><span>Mobile Phones</span> <i class="bi bi-chevron-right"></i></a>
-                        <ul>
-                        <li><a href="#">Samsung</a></li>
-                        <li><a href="#">Apple</a></li>
-                        <li><a href="#">Xiaomi</a></li>
-                        <li><a href="#">Tecno</a></li>
-                        <li><a href="#">Infinix</a></li>
-                        <li><a href="#">Gionee</a></li>
-                        </ul>
-                    </li>
-                    <li><a href="#">Television sets</a></li>
-                    <li><a href="#">Appliances</a></li>
-                    <li class="dropdown"><a href="#"><span>Cars</span><i class="bi bi-chevron-right"></i> </a>
-                      <ul>
-                        <li><a href="#">Benz</a></li>
-                        <li><a href="#">Toyota</a></li>
-                        <li><a href="#">Lexus</a></li>
-                        <li><a href="#">Peugeot</a></li>
-                        <li class="dropdown"><a href="#"><span>Exotic</span><i class="bi bi-chevron-right"></i></a>
-                          <ul>
-                            <li><a href="#">Rolls Royce</a></li>
-                            <li><a href="#">Ferrari</a></li>
-                            <li><a href="#">Maybach</a></li>
-                            <li><a href="#">Bugatti</a></li>
-                            <li><a href="#">Lamborghini</a></li>
-                          </ul>
-                        </li>
-                      </ul>
-                    </li>
+                    <li><a href="/products/all">All</a></li>
+                    {% for category in categories %}
+                      <li><a href="/products/{{category.name}}">{{category.name}}</a></li>
+                    {% endfor %}
                   </ul>
                 </li>
                 <li><a class="nav-link scrollto" href="/cart">Cart</a></li>
@@ -131,6 +109,7 @@
 
 
     <div><br><br><br><br></div>
+    {% include 'main/messages.html' %}
 
 
 
@@ -201,12 +180,10 @@
     <script src="{% static 'assets/vendor/php-email-form/validate.js' %}"></script>
     <!-- Template Main JS File -->
     <script src="{% static 'assets/js/main.js' %}"></script>
-    <script>
-      setTimeout(function(){
-        if($('#msg').length > 0){
-          $('#msg').remove(); 
-        }  
-      }, 2000)
+    <script text="javascript">
+      setTimeout(fade_out, 2000);
+      function fade_out() {   $(".messages").fadeOut().empty(); }
+      $(".post-form")[0].reset(); // this is to reset the form 
     </script>
     
   </body>

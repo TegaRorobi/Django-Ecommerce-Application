@@ -6,7 +6,7 @@ from django.contrib import messages
 
 # Create your views here.
 def BaseView(request):
-    return render(request, 'main/base.html', {'Customer':Customer})
+    return render(request, 'main/base.html', {'Customer':Customer, 'categories':Category.objects.all()})
 
 
 
@@ -59,9 +59,8 @@ def listAll(request):
         print(request.POST)
         if request.POST.get('cart-add-button'):
             if request.user.is_authenticated:
-
                 # getting the particular product and the particular cart to which a cartitem will be tied to
-                id_ = int(request.POST.get('cart-add-button')[0])
+                id_ = int(request.POST.get('cart-add-button'))
                 product = Product.objects.get(id = id_)
                 product.in_a_cart = True
                 product.save()
@@ -131,8 +130,38 @@ def listCategory(request, category):
 
 def CartView(request):
     if request.user.is_authenticated:
+        if request.method == "POST":
+            print(request.POST)
+            if request.POST.get('cartitem-delete-btn'):
+                cartitem = CartItem.objects.get(id = int(request.POST.get('cartitem-delete-btn')))
+                cartitem.product.inventory += cartitem.amount
+                cartitem.product.amount_in_carts -= cartitem.amount
+                cartitem.product.save()
+                cartitem.delete()
+                if not CartItem.objects.filter(product=cartitem.product):
+                    cartitem.product.in_a_cart = False
+            if request.POST.get('cartitem-remove-btn'):
+                cartitem = CartItem.objects.get(id = int(request.POST.get('cartitem-remove-btn')))
+                rm_amount = int(request.POST.get('remove-amount'))
+                if cartitem.amount >= rm_amount:
+                    cartitem.product.inventory += rm_amount
+                    cartitem.product.amount_in_carts -= rm_amount
+                    cartitem.amount -= rm_amount
+                    cartitem.product.save()
+                    cartitem.save()
+                    if cartitem.amount <= 0:
+                        cartitem.delete()
+                    if not CartItem.objects.filter(product=cartitem.product):
+                        cartitem.product.in_a_cart = False
+
+                else:
+                    messages.success(request, f"You do not have up to {rm_amount} products in the {cartitem.product.name} item, either delete all or specify a valid number")
+
         cart = get_object_or_404(Cart, user=request.user)
-        return render(request, 'main/cart-view.html', {'cart_items':cart.items.all()})
+        total_cost = 0
+        for cart_item in cart.items.all():
+            total_cost += cart_item.cost()
+        return render(request, 'main/cart-view.html', {'cart_items':cart.items.all(), 'total_cost':total_cost})
     return redirect('/login')
 
 
