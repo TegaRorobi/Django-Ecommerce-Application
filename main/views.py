@@ -13,7 +13,6 @@ def BaseView(request):
 
 
 
-
 def RegisterCustomerView(request):
     if request.user.is_authenticated:
         if request.method == 'POST':
@@ -22,7 +21,7 @@ def RegisterCustomerView(request):
             messages.warning(request, "Your profile has been created succcessfully")        
         else:
             form = CustomerForm()
-        return render(request, 'main/customer-create.html', {'form':form, 'customer':False})
+        return render(request, 'main/customer-create.html', {'form':form, 'customer':False, 'categories':Category.objects.all()})
     else:
         return redirect('/login')
 
@@ -42,13 +41,12 @@ def UpdateCustomerView(request):
                 customer.phone=request.POST.get('phone')
                 customer.email=request.POST.get('email')
                 return redirect('/')
-            return render(request, 'main/customer-create.html', {'form':form, 'customer':customer})
+            return render(request, 'main/customer-create.html', {'form':form, 'customer':customer, 'categories':Category.objects.all()})
         except:
             form = CustomerForm(request.POST or None)
-            return render(request, 'main/customer-create.html', {'form':form, 'customer':False})
+            return render(request, 'main/customer-create.html', {'form':form, 'customer':False, 'categories':Category.objects.all()})
     else:
         return redirect('/login')
-
 
 
 
@@ -161,7 +159,7 @@ def CartView(request):
         total_cost = 0
         for cart_item in cart.items.all():
             total_cost += cart_item.cost()
-        return render(request, 'main/cart-view.html', {'cart_items':cart.items.all(), 'total_cost':total_cost})
+        return render(request, 'main/cart-view.html', {'cart_items':cart.items.all(), 'total_cost':total_cost, 'categories':Category.objects.all()})
     return redirect('/login')
 
 

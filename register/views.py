@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.forms import UserCreationForm
 from .forms import RegisterForm
-from main.models import Cart
+from main.models import *
 
 # Create your views here.
 def register(response):
@@ -20,4 +20,4 @@ def register(response):
             print('The form is not valid and it will not be saved')
     else:
         form = RegisterForm()
-    return render(response, 'register/register.html', {'form':form})
+    return render(response, 'register/register.html', {'form':form, 'categories':Category.objects.all()})
