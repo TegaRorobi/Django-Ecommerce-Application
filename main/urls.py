@@ -1,4 +1,4 @@
-from django.urls import path
+'''from django.urls import path
 from .views import *
 
 app_name = 'main'
@@ -20,3 +20,11 @@ urlpatterns = [
     # path('create_product/', ProductCreateView.as_view(), name = "product-create") ,
 ]
 
+'''
+
+from django.urls import path
+from .views import *
+
+urlpatterns = [
+    path('home/', HomeView.as_view(), name='home')
+]

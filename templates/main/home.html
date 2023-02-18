@@ -1,0 +1,71 @@
+{% extends 'main/base.html' %}
+{% load static %}
+
+{% block title %} Homepage {% endblock %}
+
+{% block overlay_name %} Deciphrexx Stores {% endblock %}
+
+{% block main_content %}
+  <div class="portfolio-details-slider swiper">
+    <div class="swiper-wrapper align-items-center">
+      {% block images %}
+        <div class="swiper-slide">
+          <img src="{% static 'assets/img/portfolio-details-1.jpg' %}" alt="">
+        </div>
+
+        <div class="swiper-slide">
+          <img src="{% static 'assets/img/portfolio-details-2.jpg' %}" alt="">
+        </div>
+
+        <div class="swiper-slide">
+          <img src="{% static 'assets/img/portfolio-details-3.jpg' %}" alt="">
+        </div>
+      {% endblock %}
+    </div>
+    <div class="swiper-pagination"></div> 
+  </div>
+{% endblock %}
+
+
+
+{% block login_content %}
+  <div class="portfolio-details-slider swiper">
+    <div class="swiper-wrapper align-items-center">
+        <div class="swiper-slide">
+          <img src="static/assets/img/portfolio-details-1.jpg" alt="">
+        </div>
+
+        <div class="swiper-slide">
+          <img src="static/assets/img/portfolio-details-2.jpg" alt="">
+        </div>
+
+        <div class="swiper-slide">
+          <img src="static/assets/img/portfolio-details-3.jpg" alt="">
+        </div>
+    </div>
+    <div class="swiper-pagination"></div> 
+  </div>
+{% endblock %}	
+
+
+
+
+{% block side_info %}
+  <h3>Project information</h3>
+  <ul>
+    <li><strong>Category</strong>: Web design</li>
+    <li><strong>Designer</strong>:Tega Rorobi, CEO Deciphrexx labs</li>
+    <li><strong>Project date</strong>: 02 December, 2022</li>
+    <li><strong>Project languages</strong>: <a href="#">Django/Html/Bootstrap</a></li>
+  </ul>
+{% endblock %}
+
+
+
+
+{% block side_description %}
+  <h2>About the creator</h2>
+  <p>
+    My name is Tega Rorobi, I am the CEO of Deciphrexx labs and its subsidiaries. My skills are Python, Django, Html, Bootstrap5, Javascript. I have over 2 years of experience as a software engineer at Google and I am currently writing a book called "Python Virtuoso - In the flesh"
+  </p>
+{% endblock %}

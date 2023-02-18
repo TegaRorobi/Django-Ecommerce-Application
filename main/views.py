@@ -1,34 +1,53 @@
 from django.shortcuts import render, get_object_or_404, redirect
+from django.urls import reverse
+
+from django.contrib.auth import login, authenticate
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib import messages
+
+from django.views.generic import *
+
+from .models import *
+from .forms import *
+
+
+class BaseMixin(View):
+    template_name = None
+    form1, form2, form3 = None, None, None
+    queryset1, queryset2, queryset3 = None, None, None
+    def get(self, request, *args, **kwargs):
+        forms = {'form_1':self.form1, 'form_2':self.form2, 'form_3':self.form3}
+        querysets = {'queryset_1':self.queryset1, 'queryset_2':self.queryset2, 'queryset_3':self.queryset3}
+        return render(request, self.template_name, {**forms, **querysets})
+
+class HomeView(BaseMixin):
+    template_name = 'main/home.html'
+
+"""
+from django.shortcuts import render, get_object_or_404, redirect
 from django.views.generic import *
 from .forms import *
 from .models import *
 from django.contrib import messages
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth import login, authenticate
+from django.views.generic import *
 
 # Create your views here.
 def BaseView(request):
     return render(request, 'main/base.html', {'Customer':Customer, 'categories':Category.objects.all()})
-
-
-
-
-
 
 def RegisterCustomerView(request):
     if request.user.is_authenticated:
         if request.method == 'POST':
             form = CustomerForm(request.POST)
             Customer.objects.create(user=request.user, first_name=request.POST.get('first_name'), last_name=request.POST.get('last_name'), phone=request.POST.get('phone'), email=request.POST.get('email'))
-            messages.warning(request, "Your profile has been created succcessfully")        
+            messages.success(request, "Your profile has been created succcessfully")        
         else:
             form = CustomerForm()
         return render(request, 'main/customer-create.html', {'form':form, 'customer':False, 'categories':Category.objects.all()})
     else:
         return redirect('/login')
-
-
-
-
-
 
 def UpdateCustomerView(request):
     if request.user.is_authenticated:
@@ -40,17 +59,14 @@ def UpdateCustomerView(request):
                 customer.last_name=request.POST.get('last_name')
                 customer.phone=request.POST.get('phone')
                 customer.email=request.POST.get('email')
-                return redirect('/')
+                customer.save()
+                messages.success(request, "Your profile has been updated succcessfully")
             return render(request, 'main/customer-create.html', {'form':form, 'customer':customer, 'categories':Category.objects.all()})
         except:
             form = CustomerForm(request.POST or None)
             return render(request, 'main/customer-create.html', {'form':form, 'customer':False, 'categories':Category.objects.all()})
     else:
         return redirect('/login')
-
-
-
-
 
 def listAll(request):
     if request.method == 'POST':
@@ -69,12 +85,13 @@ def listAll(request):
                     cartitem = CartItem.objects.filter(cart=cart, product=product)[0]
                     cartitem.amount = cartitem.amount + 1
                     cartitem.save()
-                    messages.warning(request, f"Successfully added {product.name} to cart :-)") 
+                    messages.success(request, f"Successfully added {product.name} to cart :-)") 
                     print('adding to a previous cartitem')
 
                 # if not, create a new cartitem that will link the product and the cart
                 except :
                     cartitem = CartItem.objects.create(product=product, cart=cart)
+                    messages.success(request, f"Successfully added {product.name} to cart :-)")
                     print('creating a new cartitem')
                 product.amount_in_carts += 1
                 product.inventory -= 1
@@ -86,11 +103,6 @@ def listAll(request):
     categories = Category.objects.all()
     
     return render(request, 'main/product-list.html', {'products':Product.objects.all(), 'categories':categories})
-
-
-
-
-
 
 def listCategory(request, category):
     if request.method == 'POST':
@@ -106,9 +118,11 @@ def listCategory(request, category):
                     cartitem = CartItem.objects.filter(cart=cart, product=product)[0]
                     cartitem.amount = cartitem.amount + 1
                     cartitem.save()
+                    messages.success(request, f"Successfully added {product.name} to cart :-)")
                     print('adding to a previous cartitem')
                 except :
                     cartitem = CartItem.objects.create(product=product, cart=cart)
+                    messages.success(request, f"Successfully added {product.name} to cart :-)")
                     print('creating a new cartitem')
                 product.amount_in_carts += 1
                 product.inventory -= 1
@@ -120,12 +134,6 @@ def listCategory(request, category):
     categories = Category.objects.all()
     return render(request, 'main/product-list.html', {'products':Product.objects.filter(category__name=category), 'categories':categories})
 
-
-
-
-
-
-
 def CartView(request):
     if request.user.is_authenticated:
         if request.method == "POST":
@@ -136,6 +144,7 @@ def CartView(request):
                 cartitem.product.amount_in_carts -= cartitem.amount
                 cartitem.product.save()
                 cartitem.delete()
+                messages.success(request, f"{cartitem.product.name} removed from cart")
                 if not CartItem.objects.filter(product=cartitem.product):
                     cartitem.product.in_a_cart = False
             if request.POST.get('cartitem-remove-btn'):
@@ -147,6 +156,7 @@ def CartView(request):
                     cartitem.amount -= rm_amount
                     cartitem.product.save()
                     cartitem.save()
+                    messages.success(request, f"Successfully removed {rm_amount} {cartitem.product.name} from your cart.")
                     if cartitem.amount <= 0:
                         cartitem.delete()
                     if not CartItem.objects.filter(product=cartitem.product):
@@ -164,10 +174,9 @@ def CartView(request):
 
 
 
-
 #---------------------------- Unused Code ------------------------------#
 
-"""
+
 def image_request(request):  
     if request.method == 'POST':  
         form = UserImageForm(request.POST, request.FILES) 

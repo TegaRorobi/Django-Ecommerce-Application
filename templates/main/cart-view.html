@@ -1,0 +1,75 @@
+{% extends 'main/base2.html' %}
+{% block title %}
+    Products list
+{% endblock %}
+{% block overlay_name %}
+    All Products
+{% endblock %}
+
+
+{% block main_content %}
+
+    <div class="row">
+        <div class="col-3">
+
+        </div>
+        <div class="col-9">
+            <div class="col-lg-11">
+                {% include 'main/messages.html' %}
+                {% if cart_items %}
+                    <div class="row row-cols-1 row-cols-md-3 g-4">
+                        {% for item in cart_items %}
+                            <div class="col">
+                                <div class="card h-100">
+                                    <img class="card-img-top" src="{{item.product.image.url}}" alt="">
+                                    
+                                    <div class="card-body">
+                                        <div class="card-title">{{item.product.name}}</div>
+                                        <p>Total :
+                                            <b>
+                                                {{item.cost}}
+                                            </b>
+                                        </p>
+                                        <h1 style="float: right;">x{{item.amount}}</h1>
+                                    </div>
+                                    <form action="." method="POST" class='form-group'>{% csrf_token %}
+                                        
+
+                                        <button name="cartitem-remove-btn" value="{{item.id}}" type="submit" class="btn bg-danger ">
+                                            Remove :
+                                        </button>
+                                        <input style='width:145px;font-size:18px' type="number" name="remove-amount" value="1">
+                                        <button name="cartitem-delete-btn" value="{{item.id}}" type="submit" class="btn bg-danger ">
+                                            All
+                                        </button>
+                                        
+                                        <button name="purchase-button" value="{{item.id}}" type="submit" class="btn purchase-btn w-100">
+                                            Buy
+                                        </button>
+                                    </form>
+                                    
+                                </div>
+                                
+                                
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    <div class='container' style="top:40%; left:40%; position:absolute; display: flex;">
+                        <h2 >You have <b>no</b> items in your cart.<br>Add items to view them here.</h2>
+                    </div>
+                {% endif %}
+                
+                {% if total_cost %}
+                    <hr>
+                    <div style= 'float:right;'>
+                        <h4>Total Cost : {{total_cost}}</h4>
+                    </div>
+                {% endif %}
+            </div>
+            
+            
+            
+        </div>
+    </div>
+{% endblock %}

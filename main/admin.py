@@ -2,9 +2,9 @@ from django.contrib import admin
 
 
 # Register your models here.
-from .models import Customer, Category, Cart, Product, CartItem
-admin.site.register(Customer)
+from .models import *
+admin.site.register(User)
 admin.site.register(Category)
-admin.site.register(Cart)
+admin.site.register(BuyerProfile)
+admin.site.register(SellerProfile)
 admin.site.register(Product)
-admin.site.register(CartItem)

@@ -1,4 +1,8 @@
+from django import forms
 from .models import *
+
+
+'''from .models import *
 from django import forms
 
 
@@ -32,4 +36,4 @@ class CustomerForm(forms.ModelForm):
         if len(last_name) <3:
             raise forms.ValidationError('Please enter a valid last name')
         return last_name
-         
+         '''
